@@ -1,3 +1,4 @@
+import BackToPrevious from '@/components/BackToPrevious';
 import { fetchProductById } from '@/services/productApi';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,11 +53,7 @@ export default async function ProductDetails({
     return (
         <section className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 py-8">
             <div className="container mx-auto px-4">
-                <Link href="/" className='inline-flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors mb-8'>
-                    <ArrowLeft />
-                    <span>Back to Home</span>
-                </Link>
-
+                <BackToPrevious />
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                         {/* Product Image */}
@@ -83,7 +80,7 @@ export default async function ProductDetails({
                                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                                     {product.title}
                                 </h1>
-                                
+
                                 {/* Rating */}
                                 <div className="flex items-center space-x-2">
                                     <div className="flex items-center">
@@ -110,11 +107,10 @@ export default async function ProductDetails({
                                 {/* Stock */}
                                 <div className="flex items-center space-x-2">
                                     <span className="text-sm font-medium text-gray-700">Stock:</span>
-                                    <span className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                                        product.stock > 50 ? 'bg-green-100 text-green-800' :
-                                        product.stock > 20 ? 'bg-yellow-100 text-yellow-800' :
-                                        'bg-red-100 text-red-800'
-                                    }`}>
+                                    <span className={`text-sm font-semibold px-3 py-1 rounded-full ${product.stock > 50 ? 'bg-green-100 text-green-800' :
+                                            product.stock > 20 ? 'bg-yellow-100 text-yellow-800' :
+                                                'bg-red-100 text-red-800'
+                                        }`}>
                                         {product.stock} available
                                     </span>
                                 </div>
@@ -146,9 +142,3 @@ export default async function ProductDetails({
 }
 
 
-const ArrowLeft = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-    </svg>
-
-)

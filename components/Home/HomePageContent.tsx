@@ -52,9 +52,9 @@ export default function HomePage() {
     router.replace(`?${params.toString()}`, { scroll: false });
   }, [search, category, page, router]);
 
-  // reset pagination when filters change
+  // reset pagination when filters change but not on page change
   useEffect(() => {
-    setPage(1);
+    if (page !== 1) setPage(1);
   }, [debouncedSearch, category]);
 
   const categories = [...new Set(products.map(p => p.category))];
