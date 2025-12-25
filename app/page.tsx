@@ -10,6 +10,7 @@ import PaginationBar from '@/components/PaginationBar';
 import { Product } from '@/types/product';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useRouter, useSearchParams } from 'next/navigation';
+import LoadingScleton from '@/components/LoadingScleton';
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -28,28 +29,28 @@ export default function HomePage() {
       .finally(() => setLoading(false));
   }, []);
 
-const router = useRouter();
-const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-useEffect(() => {
-  const urlSearch = searchParams.get('search') || '';
-  const urlCategory = searchParams.get('category') || '';
-  const urlPage = Number(searchParams.get('page') || 1);
+  useEffect(() => {
+    const urlSearch = searchParams.get('search') || '';
+    const urlCategory = searchParams.get('category') || '';
+    const urlPage = Number(searchParams.get('page') || 1);
 
-  setSearch(urlSearch);
-  setCategory(urlCategory);
-  setPage(urlPage);
-}, [searchParams]);
+    setSearch(urlSearch);
+    setCategory(urlCategory);
+    setPage(urlPage);
+  }, [searchParams]);
 
-useEffect(() => {
-  const params = new URLSearchParams();
+  useEffect(() => {
+    const params = new URLSearchParams();
 
-  if (search) params.set('search', search);
-  if (category) params.set('category', category);
-  if (page > 1) params.set('page', page.toString());
+    if (search) params.set('search', search);
+    if (category) params.set('category', category);
+    if (page > 1) params.set('page', page.toString());
 
-  router.replace(`?${params.toString()}`, { scroll: false });
-}, [search, category, page, router]);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [search, category, page, router]);
 
 
   const categories = [...new Set(products.map(p => p.category))];
@@ -61,7 +62,6 @@ useEffect(() => {
 
   const pageData = filtered.slice((page - 1) * 8, page * 8);
 
-  if (loading) return <Spin fullscreen />;
   if (error) return <Alert type="error" message={error} />;
 
   return (
@@ -77,16 +77,18 @@ useEffect(() => {
           categories={categories}
         />
       </div>
+      {
+        loading ? <LoadingScleton /> :
+          <Row gutter={[24, 24]} className="mb-8">
+            {pageData.map(product => (
+              <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
+                <ProductCard product={product} />
+              </Col>
+            ))}
+          </Row>
+      }
 
-      <Row gutter={[24, 24]} className="mb-8">
-        {pageData.map(product => (
-          <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
-            <ProductCard product={product} />
-          </Col>
-        ))}
-      </Row>
-
-      <div className="flex justify-center">
+      <div className={`${loading ? 'hidden' : 'flex'} justify-center`}>
         <PaginationBar
           total={filtered.length}
           page={page}

@@ -57,7 +57,7 @@ export default async function ProductDetails({
                     <span>Back to Home</span>
                 </Link>
 
-                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                         {/* Product Image */}
                         <div className='relative bg-linear-to-br from-gray-50 to-gray-100 p-8 flex items-center justify-center'>
