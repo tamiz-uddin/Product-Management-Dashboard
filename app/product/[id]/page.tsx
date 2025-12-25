@@ -76,14 +76,14 @@ export default async function ProductDetails({
                             <div className="space-y-6">
                                 {/* Brand */}
                                 <div className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                                    {product.brand}
+                                    {product.brand || 'Unknown'}
                                 </div>
 
                                 {/* Title */}
                                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                                     {product.title}
                                 </h1>
-
+                                
                                 {/* Rating */}
                                 <div className="flex items-center space-x-2">
                                     <div className="flex items-center">
